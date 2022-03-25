@@ -34,7 +34,6 @@ export default function Home() {
       </Head>
       <Main>
         <h1>Jereme Lentz Photography</h1>
-        <h2>Some pictures</h2>
       </Main>
     </Container>
   );

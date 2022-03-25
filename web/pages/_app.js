@@ -11,10 +11,10 @@ const Content = styled.div`
 export default function MyApp({ Component, pageProps }) {
   return (
     <Layout>
-      <Content>
-        <Sidebar />
-        <Component {...pageProps} />
-      </Content>
+      {/* <Content>
+        <Sidebar /> */}
+      <Component {...pageProps} />
+      {/* </Content> */}
     </Layout>
   );
 }
