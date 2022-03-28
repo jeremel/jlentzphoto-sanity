@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import Layout from "../components/layout";
+import Layout from "../components/Layout";
 import Sidebar from "../components/Sidebar";
 import styled from "styled-components";
 
