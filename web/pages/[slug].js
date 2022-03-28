@@ -26,7 +26,6 @@ const pageQuery = groq`
 const Container = styled.div`
   margin: 0 0 0 4rem;
   padding: 0;
-  /* background: blue; */
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -42,7 +41,6 @@ const Container = styled.div`
 
     img {
       height: 100%;
-      /* object-fit: cover; */
     }
   }
 
@@ -77,6 +75,8 @@ export default function Post({ data, preview }) {
   }
 
   const { title, mainImage, body, description } = page;
+
+  console.log(page.title);
 
   return (
     <Container>
@@ -115,6 +115,6 @@ export async function getStaticPaths() {
 
   return {
     paths: paths.map((slug) => ({ params: { slug } })),
-    fallback: true,
+    fallback: false,
   };
 }

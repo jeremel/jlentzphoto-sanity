@@ -22,7 +22,7 @@ export default function Footer() {
   return (
     <Container>
       <FooterStyles>
-        <p>&copy; 2022 Jereme Lentz :)</p>
+        <p>&copy; 2022 Jereme Lentz</p>
       </FooterStyles>
     </Container>
   );
