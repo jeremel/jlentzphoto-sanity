@@ -23,6 +23,37 @@ const postQuery = groq`
   }
 `;
 
+const ImageComponent = ({ value, isInline }) => {
+  return (
+    <img
+      src={urlFor(value).url()}
+      alt={value.alt || " "}
+      loading="lazy"
+      style={{
+        // Display alongside text if image appears inside a block text span
+        display: isInline ? "inline-block" : "block",
+      }}
+    />
+  );
+};
+
+const components = {
+  types: {
+    image: ImageComponent,
+    // Any other custom types you have in your content
+    // Examples: mapLocation, contactForm, code, featuredProjects, latestNews, etc.
+  },
+  marks: {
+    internalLink: ({ value, children }) => {
+      return (
+        <Link href={value?.path} passHref>
+          <a>{children}</a>
+        </Link>
+      );
+    },
+  },
+};
+
 const Container = styled.div`
   margin: 0 auto;
   width: 100%;
@@ -69,75 +100,13 @@ export default function Post({ data, preview }) {
 
   const { title, mainImage, body } = post;
 
-  const myPortableTextComponents = {
-    types: {
-      image: ({ value }) => <img src={urlFor(value).url()} alt="" />,
-    },
-
-    marks: {
-      internalLink: ({ children, value }) => {
-        const rel = !value.href.startsWith("/")
-          ? "noreferrer noopener"
-          : undefined;
-
-        return (
-          <Link href={value.href} rel={rel}>
-            <a>{children}</a>
-          </Link>
-        );
-      },
-    },
-  };
-
-  // Barebones lazy-loaded image component
-  // const SampleImageComponent = ({ value }) => {
-  //   const { width, height } = getImageDimensions(value);
-  //   return (
-  //     <img
-  //       src={urlBuilder()
-  //         .image(value)
-  //         .width(800)
-  //         .fit("max")
-  //         .auto("format")
-  //         .url()}
-  //       alt={value.alt || " "}
-  //       loading="lazy"
-  //       style={{
-  //         // Avoid jumping around with aspect-ratio CSS property
-  //         aspectRatio: width / height,
-  //       }}
-  //     />
-  //   );
-  // };
-
   return (
     <Container>
       <h2>{title}</h2>
       <figure>
         <img src={urlFor(mainImage).url()} />
       </figure>
-      <PortableText
-        value={body}
-        components={{
-          types: {
-            image: ({ value }) => <img src={urlFor(value).url()} alt="" />,
-          },
-
-          marks: {
-            internalLink: ({ children, value }) => {
-              const rel = !value.href.startsWith("/")
-                ? "noreferrer noopener"
-                : undefined;
-
-              return (
-                <Link href={value.href} rel={rel}>
-                  <a>{children}</a>
-                </Link>
-              );
-            },
-          },
-        }}
-      />
+      <PortableText value={body} components={components} />
     </Container>
   );
 }

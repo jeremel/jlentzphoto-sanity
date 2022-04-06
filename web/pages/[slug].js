@@ -56,7 +56,7 @@ const components = {
   marks: {
     internalLink: ({ value, children }) => {
       return (
-        <Link href={`/${value?.path}`} passHref>
+        <Link href={value?.path} passHref>
           <a>{children}</a>
         </Link>
       );
