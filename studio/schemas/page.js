@@ -7,6 +7,10 @@ export default {
         name: 'title',
         title: 'Title',
         type: 'string',
+        validation: Rule => [
+          Rule.required().min(3).error('A title with a minimum of 3 characters is required'),
+          Rule.max(50).warning('The title field accepts a maximum of 50 characters'),
+        ],
       },
       {
         name: 'slug',
@@ -16,6 +20,11 @@ export default {
           source: 'title',
           maxLength: 96,
         },
+        description: 'This will be the path to the page',
+        validation: Rule => [
+          Rule.required().error('A slug must be generated for each page'),
+          Rule.warning('A slug must be generated for each page'),
+        ],
       },
       {
         name: 'mainImage',

@@ -1,6 +1,7 @@
 // pages/[slug].js
 import ErrorPage from "next/error";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PortableText } from "@portabletext/react";
@@ -12,7 +13,16 @@ const pageQuery = groq`
   *[_type == "page" && slug.current == $slug][0] {
     _id,
     title,
-    body,
+    body[] {
+      ...,
+      markDefs[] {
+        ...,
+        _type == "internalLink" => {
+          "path": "/" + reference->slug.current
+        },
+      },
+    },
+    gallery,
     mainImage,
     categories[]->{
       _id,
@@ -22,6 +32,37 @@ const pageQuery = groq`
     description,
   }
 `;
+
+const ImageComponent = ({ value, isInline }) => {
+  return (
+    <img
+      src={urlFor(value).url()}
+      alt={value.alt || " "}
+      loading="lazy"
+      style={{
+        // Display alongside text if image appears inside a block text span
+        display: isInline ? "inline-block" : "block",
+      }}
+    />
+  );
+};
+
+const components = {
+  types: {
+    image: ImageComponent,
+    // Any other custom types you have in your content
+    // Examples: mapLocation, contactForm, code, featuredProjects, latestNews, etc.
+  },
+  marks: {
+    internalLink: ({ value, children }) => {
+      return (
+        <Link href={`/${value?.path}`} passHref>
+          <a>{children}</a>
+        </Link>
+      );
+    },
+  },
+};
 
 const Container = styled.div`
   margin: 0 0 0 4rem;
@@ -61,7 +102,16 @@ const Container = styled.div`
   }
 `;
 
-export default function Post({ data, preview }) {
+const Gallery = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
+  img {
+    width: 500px;
+  }
+`;
+
+export default function Page({ data, preview }) {
   const router = useRouter();
 
   const { data: page } = usePreviewSubscription(pageQuery, {
@@ -74,9 +124,9 @@ export default function Post({ data, preview }) {
     return <ErrorPage statusCode={404} />;
   }
 
-  const { title, mainImage, body, description } = page;
+  const { title, mainImage, body, description, gallery } = page;
 
-  console.log(page.title);
+  // console.log(body);
 
   return (
     <Container>
@@ -87,10 +137,26 @@ export default function Post({ data, preview }) {
       </Head>
 
       <h2>{title}</h2>
-      <figure>
-        <img src={urlFor(mainImage).url()} alt={mainImage.alt} />
-      </figure>
-      <PortableText value={body} />
+      {mainImage && (
+        <figure>
+          <img src={urlFor(mainImage).url()} alt={mainImage.alt} />
+        </figure>
+      )}
+
+      <PortableText value={body} components={components} />
+
+      {gallery && (
+        <Gallery>
+          {gallery &&
+            gallery.images.map((image) => (
+              <img
+                key={image._key}
+                src={urlFor(image.asset._ref).url()}
+                alt={image.alt}
+              />
+            ))}
+        </Gallery>
+      )}
     </Container>
   );
 }

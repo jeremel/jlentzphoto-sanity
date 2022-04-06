@@ -6,6 +6,8 @@ import { PortableText } from "@portabletext/react";
 import { usePreviewSubscription, urlFor } from "../../lib/sanity";
 import { getClient } from "../../lib/sanity.server";
 import styled from "styled-components";
+// import urlBuilder from "@sanity/image-url";
+// import { getImageDimensions } from "@sanity/asset-utils";
 
 const postQuery = groq`
   *[_type == "post" && slug.current == $slug][0] {
@@ -67,13 +69,75 @@ export default function Post({ data, preview }) {
 
   const { title, mainImage, body } = post;
 
+  const myPortableTextComponents = {
+    types: {
+      image: ({ value }) => <img src={urlFor(value).url()} alt="" />,
+    },
+
+    marks: {
+      internalLink: ({ children, value }) => {
+        const rel = !value.href.startsWith("/")
+          ? "noreferrer noopener"
+          : undefined;
+
+        return (
+          <Link href={value.href} rel={rel}>
+            <a>{children}</a>
+          </Link>
+        );
+      },
+    },
+  };
+
+  // Barebones lazy-loaded image component
+  // const SampleImageComponent = ({ value }) => {
+  //   const { width, height } = getImageDimensions(value);
+  //   return (
+  //     <img
+  //       src={urlBuilder()
+  //         .image(value)
+  //         .width(800)
+  //         .fit("max")
+  //         .auto("format")
+  //         .url()}
+  //       alt={value.alt || " "}
+  //       loading="lazy"
+  //       style={{
+  //         // Avoid jumping around with aspect-ratio CSS property
+  //         aspectRatio: width / height,
+  //       }}
+  //     />
+  //   );
+  // };
+
   return (
     <Container>
       <h2>{title}</h2>
       <figure>
         <img src={urlFor(mainImage).url()} />
       </figure>
-      <PortableText value={body} />
+      <PortableText
+        value={body}
+        components={{
+          types: {
+            image: ({ value }) => <img src={urlFor(value).url()} alt="" />,
+          },
+
+          marks: {
+            internalLink: ({ children, value }) => {
+              const rel = !value.href.startsWith("/")
+                ? "noreferrer noopener"
+                : undefined;
+
+              return (
+                <Link href={value.href} rel={rel}>
+                  <a>{children}</a>
+                </Link>
+              );
+            },
+          },
+        }}
+      />
     </Container>
   );
 }

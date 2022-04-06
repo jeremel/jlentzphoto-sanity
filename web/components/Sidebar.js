@@ -35,6 +35,12 @@ export default function Sidebar() {
         <Link href="/croatia" passHref>
           <a>Croatia</a>
         </Link>
+        <Link href="/delaware-water-gap" passHref>
+          <a>Delaware Water Gap</a>
+        </Link>
+        <Link href="/posts" passHref>
+          <a>Blog</a>
+        </Link>
         <Link href="/about" passHref>
           <a>About</a>
         </Link>

@@ -1,3 +1,5 @@
+import { FaLink } from 'react-icons/fa';
+
 /**
  * This is the schema definition for the rich text fields used for
  * for this blog studio. When you import it in schemas.js it can be
@@ -28,7 +30,10 @@ export default {
         {title: 'H4', value: 'h4'},
         {title: 'Quote', value: 'blockquote'},
       ],
-      lists: [{title: 'Bullet', value: 'bullet'}],
+      lists: [
+        {title: 'Bullet', value: 'bullet'},
+        {title: 'Numbered', value: 'number'},
+      ],
       // Marks let you mark up inline text in the block editor.
       marks: {
         // Decorators usually describe a single property – e.g. a typographic
@@ -36,6 +41,8 @@ export default {
         decorators: [
           {title: 'Strong', value: 'strong'},
           {title: 'Emphasis', value: 'em'},
+          {title: 'Underline', value: 'underline'},
+          {title: 'Strike-Through', value:'strike-through'},
         ],
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
@@ -51,15 +58,45 @@ export default {
               },
             ],
           },
+          {
+            name: 'internalLink',
+            type: 'object',
+            title: 'Internal Link',
+            icon: FaLink,
+            fields: [
+              {
+                title: 'Reference',
+                name: 'reference',
+                type: 'reference',
+                to: [
+                  { type: 'post' },
+                  { type: 'page' },
+                ],
+              },
+            ],
+          },
         ],
       },
-    },
-    // You can add additional types here. Note that you can't use
-    // primitive types such as 'string' and 'number' in the same array
-    // as a block type.
-    {
-      type: 'image',
-      options: {hotspot: true},
+      of: [ {
+        type: 'image',
+        title: 'Image',
+        options: {hotspot: true},
+        fields: [
+          {
+            type: 'text',
+            name: 'alt',
+            title: 'Alternative Text',
+            description: `Some of your visitors cannot see images, 
+            be they blind, color-blind, low-sighted; 
+            alternative text is of great help for those 
+            people that can rely on it to have a good idea of 
+            what\'s on your page.`,
+            options: {
+              isHighlighted: true,
+            },
+          },
+        ],
+      },]
     },
   ],
 }

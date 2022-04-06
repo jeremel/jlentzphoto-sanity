@@ -41,6 +41,12 @@ export default {
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+        timeFormat: 'HH:mm',
+        timeStep: 15,
+        calendarTodayLabel: 'Today'
+      },
     },
     {
       name: 'body',
@@ -52,14 +58,21 @@ export default {
   preview: {
     select: {
       title: 'title',
+      publishedAt: 'publishedAt',
       author: 'author.name',
       media: 'mainImage',
     },
+    // prepare(selection) {
+    //   const {author} = selection
+    //   return Object.assign({}, selection, {
+    //     subtitle: author && `by ${author}`,
+    //   })
+    // },
     prepare(selection) {
-      const {author} = selection
+      const {publishedAt} = selection
       return Object.assign({}, selection, {
-        subtitle: author && `by ${author}`,
+        subtitle: publishedAt && `${publishedAt}`,
       })
-    },
+    }
   },
 }
