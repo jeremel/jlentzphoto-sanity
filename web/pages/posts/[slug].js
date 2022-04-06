@@ -1,5 +1,6 @@
 // pages/posts/[slug].js
 import ErrorPage from "next/error";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { PortableText } from "@portabletext/react";
