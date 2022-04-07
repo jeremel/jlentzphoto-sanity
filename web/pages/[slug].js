@@ -157,6 +157,7 @@ export default function Page({ data, preview }) {
             ))}
         </Gallery>
       )}
+      {preview && <Link href="/api/exit-preview">Preview Mode Activated!</Link>}
     </Container>
   );
 }
