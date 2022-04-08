@@ -41,7 +41,6 @@ export default function Posts({ posts }) {
   return (
     <Container>
       <h2>Blog</h2>
-      <p>See a list of posts below:</p>
       {posts.length > 0 &&
         posts.map(
           ({ _id, title = "", slug = "", publishedAt = "" }) =>
