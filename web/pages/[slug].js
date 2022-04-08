@@ -136,7 +136,7 @@ export default function Page({ data, preview }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h2>{title}</h2>
+      {title && <h2>{title}</h2>}
       {mainImage && (
         <figure>
           <img src={urlFor(mainImage).url()} alt={mainImage.alt} />
