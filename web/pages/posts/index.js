@@ -40,7 +40,7 @@ const Container = styled.div`
 export default function Posts({ posts }) {
   return (
     <Container>
-      <h2>Blog Posts</h2>
+      <h2>Blog</h2>
       {posts.length > 0 &&
         posts.map(
           ({ _id, title = "", slug = "", publishedAt = "" }) =>
