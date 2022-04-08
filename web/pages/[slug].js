@@ -105,6 +105,7 @@ const Container = styled.div`
 const Gallery = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: 1rem;
 
   img {
     width: 500px;
