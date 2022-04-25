@@ -1,7 +1,10 @@
+import { FaPenNib } from "react-icons/fa";
+
 export default {
   name: 'author',
   title: 'Author',
   type: 'document',
+  icon: FaPenNib,
   fields: [
     {
       name: 'name',

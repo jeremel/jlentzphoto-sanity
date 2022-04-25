@@ -20,7 +20,7 @@ const postQuery = groq`
       _id,
       title
     },
-    "slug": slug.current
+    "slug": slug.current,
   }
 `;
 
@@ -103,11 +103,13 @@ export default function Post({ data, preview }) {
 
   return (
     <Container>
-      <h2>{title}</h2>
-      <figure>
-        <img src={urlFor(mainImage).url()} />
-      </figure>
-      <PortableText value={body} components={components} />
+      {title && <h2>{title}</h2>}
+      {mainImage && (
+        <figure>
+          <img src={urlFor(mainImage).url()} />
+        </figure>
+      )}
+      {body && <PortableText value={body} components={components} />}
     </Container>
   );
 }

@@ -1,7 +1,10 @@
+import { FaRegWindowRestore } from "react-icons/fa";
+
 export default {
     name: 'page',
-    title: 'Pages',
+    title: 'Content Pages',
     type: 'document',
+    icon: FaRegWindowRestore,
     fields: [
       {
         name: 'title',
