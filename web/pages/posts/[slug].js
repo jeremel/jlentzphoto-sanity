@@ -20,6 +20,7 @@ const postQuery = groq`
       _id,
       title
     },
+    gallery,
     "slug": slug.current,
   }
 `;
@@ -86,6 +87,20 @@ const Container = styled.div`
   }
 `;
 
+const Gallery = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0 2rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 75vw;
+
+  img {
+    width: 550px;
+  }
+`;
+
 export default function Post({ data, preview }) {
   const router = useRouter();
 
@@ -99,7 +114,7 @@ export default function Post({ data, preview }) {
     return <ErrorPage statusCode={404} />;
   }
 
-  const { title, mainImage, body } = post;
+  const { title, mainImage, body, gallery } = post;
 
   return (
     <Container>
@@ -110,6 +125,18 @@ export default function Post({ data, preview }) {
         </figure>
       )}
       {body && <PortableText value={body} components={components} />}
+      {gallery && (
+        <Gallery>
+          {gallery &&
+            gallery.images.map((image) => (
+              <img
+                key={image._key}
+                src={urlFor(image.asset._ref).url()}
+                alt={image.alt}
+              />
+            ))}
+        </Gallery>
+      )}
     </Container>
   );
 }

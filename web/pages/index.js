@@ -39,20 +39,19 @@ const homePageQuery = groq`
 `;
 
 export default function Home({ data, preview }) {
-  // const router = useRouter();
-  console.log(data[0].title);
+  const router = useRouter();
 
-  // const { data: homepage } = usePreviewSubscription(homePageQuery, {
-  //   params: data.homepage,
-  //   initialData: data.homepage,
-  //   enabled: preview && data.homepage,
-  // });
+  const { data: homepage } = usePreviewSubscription(homePageQuery, {
+    params: data.homepage,
+    initialData: data.homepage,
+    enabled: preview && data.homepage,
+  });
 
-  // if (!router.isFallback && !data.homepage?._id) {
-  //   return <ErrorPage statusCode={404} />;
-  // }
+  if (!router.isFallback && !data.homepage) {
+    return <ErrorPage statusCode={404} />;
+  }
 
-  const { title, mainImage, body, description } = data[0];
+  const { title, mainImage, body, description } = homepage[0];
 
   return (
     <Container>
@@ -75,12 +74,13 @@ export default function Home({ data, preview }) {
 }
 
 export async function getStaticProps({ preview = false }) {
-  let response = await getClient(preview).fetch(homePageQuery);
+  let homepage = await getClient(preview).fetch(homePageQuery);
 
   return {
     props: {
       preview,
-      data: response || null,
+      // data: homepage || null,
+      data: { homepage },
     },
   };
 }

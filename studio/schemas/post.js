@@ -27,6 +27,17 @@ export default {
       to: {type: 'author'},
     },
     {
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'datetime',
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+        timeFormat: 'HH:mm',
+        timeStep: 15,
+        calendarTodayLabel: 'Today'
+      },
+    },
+    {
       name: 'mainImage',
       title: 'Main image',
       type: 'image',
@@ -41,20 +52,38 @@ export default {
       of: [{type: 'reference', to: {type: 'category'}}],
     },
     {
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime',
-      options: {
-        dateFormat: 'YYYY-MM-DD',
-        timeFormat: 'HH:mm',
-        timeStep: 15,
-        calendarTodayLabel: 'Today'
-      },
-    },
-    {
       name: 'body',
       title: 'Body',
       type: 'blockContent',
+    },
+    {
+      name: 'gallery',
+      type: 'object',
+      title: 'Gallery',
+      fields: [
+        {
+          name: 'images',
+          type: 'array',
+          title: 'Images',
+          of: [
+            {
+              name: 'image',
+              type: 'image',
+              title: 'Image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                {
+                  name: 'alt',
+                  type: 'string',
+                  title: 'Alternative Text',
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   ],
 
