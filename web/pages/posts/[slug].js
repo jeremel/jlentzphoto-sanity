@@ -7,8 +7,6 @@ import { PortableText } from "@portabletext/react";
 import { usePreviewSubscription, urlFor } from "../../lib/sanity";
 import { getClient } from "../../lib/sanity.server";
 import styled from "styled-components";
-// import urlBuilder from "@sanity/image-url";
-// import { getImageDimensions } from "@sanity/asset-utils";
 
 const postQuery = groq`
   *[_type == "post" && slug.current == $slug][0] {
@@ -91,7 +89,7 @@ const Gallery = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin: 0 2rem;
+  margin: 0 auto;
   justify-content: center;
   align-items: center;
   max-width: 75vw;
