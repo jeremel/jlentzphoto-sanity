@@ -1,6 +1,7 @@
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { groq } from "next-sanity";
@@ -25,6 +26,21 @@ const Main = styled.main`
     width: 100vw;
     height: 100%;
     object-fit: cover;
+  }
+`;
+
+const ExitPreview = styled.div`
+  position: fixed;
+  left: 25px;
+  bottom: 25px;
+  background: darkcyan;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: 2.2px 4.3px 4.3px hsl(0deg 0% 0% / 0.43);
+
+  a {
+    color: white;
+    font-size: 1rem;
   }
 `;
 
@@ -65,10 +81,18 @@ export default function Home({ data, preview }) {
         )}
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Main>
         {mainImage && <img src={urlFor(mainImage).url()} alt={mainImage.alt} />}
       </Main>
+
       {body && <PortableText value={body} />}
+
+      {preview && (
+        <ExitPreview>
+          <Link href="/api/exit-preview">Exit Preview</Link>
+        </ExitPreview>
+      )}
     </Container>
   );
 }

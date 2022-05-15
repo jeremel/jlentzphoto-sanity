@@ -71,6 +71,22 @@ const Post = styled.div`
   }
 `;
 
+// This page is static, not created in Sanity at the moment
+// const ExitPreview = styled.div`
+//   position: fixed;
+//   left: 25px;
+//   bottom: 25px;
+//   background: darkcyan;
+//   padding: 0.5rem;
+//   border-radius: 5px;
+//   box-shadow: 2.2px 4.3px 4.3px hsl(0deg 0% 0% / 0.43);
+
+//   a {
+//     color: white;
+//     font-size: 1rem;
+//   }
+// `;
+
 export default function Posts({ posts }) {
   return (
     <Container>
@@ -101,6 +117,13 @@ export default function Posts({ posts }) {
               </li>
             )
         )}
+
+      {/* Remove the comment from this code if I make this page generated dynamically in Sanity */}
+      {/* {preview && (
+        <ExitPreview>
+          <Link href="/api/exit-preview">Exit Preview</Link>
+        </ExitPreview>
+      )} */}
     </Container>
   );
 }

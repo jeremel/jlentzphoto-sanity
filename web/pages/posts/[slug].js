@@ -99,6 +99,21 @@ const Gallery = styled.div`
   }
 `;
 
+const ExitPreview = styled.div`
+  position: fixed;
+  left: 25px;
+  bottom: 25px;
+  background: darkcyan;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: 2.2px 4.3px 4.3px hsl(0deg 0% 0% / 0.43);
+
+  a {
+    color: white;
+    font-size: 1rem;
+  }
+`;
+
 export default function Post({ data, preview }) {
   const router = useRouter();
 
@@ -134,6 +149,12 @@ export default function Post({ data, preview }) {
               />
             ))}
         </Gallery>
+      )}
+
+      {preview && (
+        <ExitPreview>
+          <Link href="/api/exit-preview">Exit Preview</Link>
+        </ExitPreview>
       )}
     </Container>
   );

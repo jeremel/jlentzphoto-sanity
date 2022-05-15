@@ -17,6 +17,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   p {
     font-size: 1.5rem;
@@ -79,6 +80,21 @@ const Gallery = styled.div`
 
   img {
     width: 550px;
+  }
+`;
+
+const ExitPreview = styled.div`
+  position: fixed;
+  left: 25px;
+  bottom: 25px;
+  background: darkcyan;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: 2.2px 4.3px 4.3px hsl(0deg 0% 0% / 0.43);
+
+  a {
+    color: white;
+    font-size: 1rem;
   }
 `;
 
@@ -186,7 +202,11 @@ export default function Page({ data, preview }) {
             ))}
         </Gallery>
       )}
-      {preview && <Link href="/api/exit-preview">Preview Mode Activated!</Link>}
+      {preview && (
+        <ExitPreview>
+          <Link href="/api/exit-preview">Exit Preview</Link>
+        </ExitPreview>
+      )}
     </Container>
   );
 }
