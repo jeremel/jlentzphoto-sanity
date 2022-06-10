@@ -37,8 +37,12 @@ const Header = styled.header`
     top: 33.33%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 4rem;
+    font-size: clamp(3rem, 2.3333rem + 2.963vw, 5rem);
     letter-spacing: 0.5rem;
+    font-family: century-gothic, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    text-align: center;
   }
 `;
 
@@ -53,7 +57,7 @@ const About = styled.section`
     width: 60vw;
 
     p {
-      font-size: 2rem;
+      font-size: clamp(1.5rem, 1.3333rem + 0.7407vw, 2rem);
       line-height: 1.15;
       letter-spacing: 0.75px;
     }
@@ -65,7 +69,9 @@ const About = styled.section`
     p {
       margin: 0;
       padding: 0;
-      font-size: 2.5vw;
+      font-weight: 500;
+      /* font-size: 2.5vw; */
+      font-size: clamp(1.65rem, 1.5083rem + 0.6296vw, 2.075rem);
     }
 
     ul {
@@ -77,7 +83,8 @@ const About = styled.section`
     li {
       margin: 0;
       padding-bottom: 0.25rem;
-      font-size: 2vw;
+      /* font-size: 2vw; */
+      font-size: clamp(1.45rem, 1.3833rem + 0.2963vw, 1.65rem);
       transition: transform 0.5s ease;
 
       &:hover {
@@ -88,6 +95,20 @@ const About = styled.section`
 
     li a:hover {
       color: blue;
+    }
+  }
+
+  @media (max-width: 975px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .about {
+      width: 90vw;
+    }
+
+    .links {
+      width: 90vw;
     }
   }
 `;
@@ -101,33 +122,68 @@ const Posts = styled.section`
   h2 {
     margin-bottom: 1rem;
     padding: 0;
+    font-size: clamp(2rem, 1.8333rem + 0.7407vw, 2.5rem);
+    letter-spacing: 1.5px;
+  }
+
+  .postsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .post {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 32.5%;
+    height: 500px;
+    overflow: hidden;
+    border: 2px solid transparent;
 
-    li {
-      list-style: none;
+    &:hover {
+      border 2px solid black;
+    }
+
+    img {
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.75s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
     }
 
     .postName {
       background: #fff;
-      border: 4px solid black;
+      border: 2px solid black;
       position: absolute;
       top: 1rem;
       left: 1rem;
-      box-shadow: var(--box-shadow);
       transition: transform 0.5s ease;
 
       h3 {
         padding: clamp(0.3rem, 0.2rem + 0.4444vw, 0.6rem);
         line-height: 1;
+        letter-spacing: 0.65px;
         font-size: clamp(0.9rem, 0.75rem + 0.6667vw, 1.35rem);
       }
 
       &:hover {
         transform: translateY(2px) translateX(5px) scale(1.025);
       }
+    }
+
+    @media (max-width: 900px) {
+      width: 48%;
+    }
+
+    @media (max-width: 600px) {
+      width: 95vw;
     }
   }
 `;
@@ -192,7 +248,7 @@ export default function Home({ data, preview, pages }) {
             content="Photography by Jereme Lentz, a South Jersey based photographer"
           />
         )}
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/jl-logo.png" />
       </Head>
 
       <Header>
@@ -216,13 +272,13 @@ export default function Home({ data, preview, pages }) {
       </About>
 
       <Posts>
-        <h2>Most Recent Work</h2>
-        {pages.length > 0 &&
-          pages.map(
-            ({ _id, title, slug, mainImage }) =>
-              slug && (
-                <div className="post">
-                  <li key={_id}>
+        <h2>Recent Work</h2>
+        <div className="postsContainer">
+          {pages.length > 0 &&
+            pages.map(
+              ({ _id, title, slug, mainImage }) =>
+                slug && (
+                  <div className="post" key={_id}>
                     <Link href="/[slug]" as={`/${slug.current}`}>
                       <a>
                         {mainImage && (
@@ -236,10 +292,10 @@ export default function Home({ data, preview, pages }) {
                         </div>
                       </a>
                     </Link>
-                  </li>
-                </div>
-              )
-          )}
+                  </div>
+                )
+            )}
+        </div>
       </Posts>
 
       {preview && (

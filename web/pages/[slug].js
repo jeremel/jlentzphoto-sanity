@@ -44,8 +44,12 @@ const Header = styled.header`
     top: 33.33%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 4rem;
+    font-size: clamp(3rem, 2.3333rem + 2.963vw, 5rem);
     letter-spacing: 0.5rem;
+    font-family: century-gothic, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    text-align: center;
   }
 `;
 
@@ -87,6 +91,12 @@ const Gallery = styled.div`
 
   img {
     max-width: 90vw;
+  }
+
+  @media (max-width: 650px) {
+    img {
+      max-width: 95vw;
+    }
   }
 `;
 
