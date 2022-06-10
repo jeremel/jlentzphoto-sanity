@@ -55,6 +55,9 @@ export default {
                 title: 'URL',
                 name: 'href',
                 type: 'url',
+                validation: Rule => Rule.uri({
+                  scheme: ['http', 'https', 'mailto', 'tel']
+                })
               },
             ],
           },
@@ -69,7 +72,6 @@ export default {
                 name: 'reference',
                 type: 'reference',
                 to: [
-                  { type: 'post' },
                   { type: 'page' },
                 ],
               },

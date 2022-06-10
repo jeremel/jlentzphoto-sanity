@@ -1,10 +1,10 @@
-import { FaRegWindowRestore } from "react-icons/fa";
+import { FaRegNewspaper } from "react-icons/fa";
 
 export default {
     name: 'page',
-    title: 'Content Pages',
+    title: 'Photo Pages',
     type: 'document',
-    icon: FaRegWindowRestore,
+    icon: FaRegNewspaper,
     fields: [
       {
         name: 'title',
@@ -30,19 +30,20 @@ export default {
         ],
       },
       {
-        name: 'mainImage',
-        title: 'Main image',
-        type: 'image',
+        name: 'publishedAt',
+        title: 'Published at',
+        type: 'datetime',
         options: {
-          hotspot: true,
+          dateFormat: 'YYYY-MM-DD',
+          timeFormat: 'HH:mm',
+          timeStep: 15,
+          calendarTodayLabel: 'Today'
         },
-        fields: [
-          {
-            name: 'alt',
-            type: 'string',
-            title: 'Alternative text',
-          },
-        ],
+      },
+      {
+        name: "mainImage",
+        title: "Main Image",
+        type: "asset",
       },
       {
         name: 'body',
@@ -60,19 +61,9 @@ export default {
             title: 'Images',
             of: [
               {
-                name: 'image',
-                type: 'image',
-                title: 'Image',
-                options: {
-                  hotspot: true,
-                },
-                fields: [
-                  {
-                    name: 'alt',
-                    type: 'string',
-                    title: 'Alternative Text',
-                  },
-                ],
+                name: "image",
+                title: "Image",
+                type: "asset",
               },
             ],
           },

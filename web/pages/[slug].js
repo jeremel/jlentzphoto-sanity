@@ -18,42 +18,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-
-  p {
-    font-size: 1.5rem;
-    width: min(95%, 55vw);
-    margin: 1rem 0;
-  }
-
-  a {
-    color: green;
-    transition: all 0.4s ease;
-  }
-
-  a:hover,
-  :focus {
-    text-decoration: underline;
-    text-decoration-style: wavy;
-    text-decoration-color: orangered;
-    text-decoration-skip-ink: none;
-  }
 `;
 
 const Header = styled.header`
   position: relative;
   margin: 0;
-
-  h2 {
-    margin: 0;
-    /* position: absolute; */
-    color: green;
-    /* left: 50%;
-    top: 15%;
-    transform: translate(-50%, -50%); */
-    letter-spacing: 0.25rem;
-    font-size: clamp(1.5rem, 0.6429rem + 4.5714vw, 3.5rem);
-    text-align: center;
-  }
 
   figure {
     margin: 0;
@@ -67,19 +36,57 @@ const Header = styled.header`
       object-fit: cover;
     }
   }
+
+  h1 {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 33.33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    letter-spacing: 0.5rem;
+  }
+`;
+
+const Content = styled.section`
+  width: 80vw;
+  background: white;
+  padding: clamp(1.5rem, 1.027rem + 1.0811vw, 2rem);
+  transform: translateY(-50px);
+  /* box-shadow: var(--blog-box-shadow); */
+
+  h2 {
+    margin: 0;
+    line-height: 1;
+    letter-spacing: 0.25rem;
+    font-size: clamp(2rem, 1.5rem + 2.2222vw, 3.5rem);
+    text-align: center;
+  }
+
+  p {
+    margin: 1rem 0;
+    font-size: clamp(1.4rem, 1.3333rem + 0.2963vw, 1.6rem);
+    padding: 0;
+    text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    width: 90vw;
+  }
 `;
 
 const Gallery = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.25rem;
   margin: 0 2rem;
   justify-content: center;
   align-items: center;
   max-width: 75vw;
 
   img {
-    width: 550px;
+    max-width: 90vw;
   }
 `;
 
@@ -181,14 +188,20 @@ export default function Page({ data, preview }) {
       <Header>
         {mainImage && (
           <figure>
-            <img src={urlFor(mainImage).url()} alt={mainImage.alt} />
+            <img src={urlFor(mainImage.image).url()} alt={mainImage.alt} />
           </figure>
         )}
-
-        {title && <h2>{title}</h2>}
+        <Link href="/" passHref>
+          <a>
+            <h1>Jereme Lentz</h1>
+          </a>
+        </Link>
       </Header>
 
-      {body && <PortableText value={body} components={components} />}
+      <Content>
+        {title && <h2>{title}</h2>}
+        {body && <PortableText value={body} components={components} />}
+      </Content>
 
       {gallery && (
         <Gallery>
