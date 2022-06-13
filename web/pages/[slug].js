@@ -86,7 +86,7 @@ const Content = styled.section`
   }
 
   p {
-    margin: -4rem 0 1rem 0;
+    margin: -4rem 0 1.25rem 0;
     width: 60vw;
     font-size: clamp(1.4rem, 1.3333rem + 0.2963vw, 1.6rem);
     padding: 0;
@@ -114,9 +114,26 @@ const Gallery = styled.div`
   position: relative;
   z-index: 1;
   background: white;
+  overflow: hidden;
 
-  img {
-    max-width: 90vw;
+  .imgContainer {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    transition: border 0.25s ease;
+
+    &: hover {
+      border: 2px solid black;
+    }
+
+    img {
+      max-width: 90vw;
+      transition: transform 1s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
   }
 
   @media (max-width: 650px) {
@@ -258,11 +275,13 @@ export default function Page({ data, preview }) {
         <Gallery>
           {gallery &&
             gallery.images.map((image) => (
-              <img
-                key={image._key}
-                src={urlFor(image.asset._ref).url()}
-                alt={image.alt}
-              />
+              <div className="imgContainer">
+                <img
+                  key={image._key}
+                  src={urlFor(image.asset._ref).url()}
+                  alt={image.alt}
+                />
+              </div>
             ))}
         </Gallery>
       )}
