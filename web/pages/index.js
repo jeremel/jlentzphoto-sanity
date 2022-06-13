@@ -221,6 +221,10 @@ const homePageQuery = groq`
     body,
     contact,
     mainImage,
+    "mainImgDimensions": {
+      "width": mainImage.image.asset->metadata.dimensions.width,
+      "height": mainImage.image.asset->metadata.dimensions.height,
+    },
     description,
   }
 `;
@@ -231,6 +235,10 @@ const pagesQuery = groq`
     title,
     slug,
     mainImage,
+    "mainImgDimensions": {
+      "width": mainImage.image.asset->metadata.dimensions.width,
+      "height": mainImage.image.asset->metadata.dimensions.height,
+    },
   }
 `;
 
@@ -261,7 +269,8 @@ export default function Home({ data, preview, pages }) {
     return <ErrorPage statusCode={404} />;
   }
 
-  const { title, mainImage, body, contact, description } = homepage[0];
+  const { title, mainImage, mainImgDimensions, body, contact, description } =
+    homepage[0];
 
   return (
     <Container>
@@ -273,7 +282,12 @@ export default function Home({ data, preview, pages }) {
 
       <Header className="headerSection" ref={headerRef}>
         {mainImage && (
-          <img src={urlFor(mainImage.image).url()} alt={mainImage.alt} />
+          <img
+            src={urlFor(mainImage.image).url()}
+            alt={mainImage.alt}
+            width={mainImgDimensions.width}
+            height={mainImgDimensions.height}
+          />
         )}
         {title && <h1>{title}</h1>}
       </Header>
@@ -296,15 +310,17 @@ export default function Home({ data, preview, pages }) {
         <div className="postsContainer">
           {pages.length > 0 &&
             pages.map(
-              ({ _id, title, slug, mainImage }) =>
+              ({ _id, title, slug, mainImage, mainImgDimensions }) =>
                 slug && (
                   <div className="post" key={_id}>
-                    <Link href="/[slug]" as={`/${slug.current}`}>
+                    <Link href="/[slug]" as={`/${slug.current}`} passHref>
                       <a>
                         {mainImage && (
                           <img
                             src={urlFor(mainImage.image).url()}
                             alt={mainImage.alt}
+                            width={mainImgDimensions.width}
+                            height={mainImgDimensions.height}
                           />
                         )}
                         <div className="postName">

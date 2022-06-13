@@ -172,7 +172,13 @@ const pageQuery = groq`
       },
     },
     gallery,
+    "width": gallery.images[].asset->metadata.dimensions.width,
+    "height": gallery.images[].asset->metadata.dimensions.height,
     mainImage,
+    "mainImgDimensions": {
+      "width": mainImage.image.asset->metadata.dimensions.width,
+      "height": mainImage.image.asset->metadata.dimensions.height,
+    },
     categories[]->{
       _id,
       title
@@ -240,7 +246,16 @@ export default function Page({ data, preview }) {
     return <ErrorPage statusCode={404} />;
   }
 
-  const { title, mainImage, body, description, gallery } = page;
+  const {
+    title,
+    mainImage,
+    body,
+    description,
+    gallery,
+    width,
+    height,
+    mainImgDimensions,
+  } = page;
 
   // console.log(body);
 
@@ -255,7 +270,12 @@ export default function Page({ data, preview }) {
       <Header className="headerSection" ref={headerRef}>
         {mainImage && (
           <figure>
-            <img src={urlFor(mainImage.image).url()} alt={mainImage.alt} />
+            <img
+              src={urlFor(mainImage.image).url()}
+              alt={mainImage.alt}
+              width={mainImgDimensions.width}
+              height={mainImgDimensions.height}
+            />
           </figure>
         )}
         <Link href="/" passHref>
@@ -280,6 +300,9 @@ export default function Page({ data, preview }) {
                   key={image._key}
                   src={urlFor(image.asset._ref).url()}
                   alt={image.alt}
+                  width={width}
+                  height={height}
+                  loading="lazy"
                 />
               </div>
             ))}
