@@ -54,7 +54,11 @@ export default function Footer() {
 
         <div className="contactLinks">
           {/* Email */}
-          <a href="mailto:jerlentz@gmail.com" className="contactLink">
+          <a
+            href="mailto:jerlentz@gmail.com"
+            className="contactLink"
+            aria-label="Email: jerlentz@gmail.com"
+          >
             <svg
               width="32"
               height="32"
