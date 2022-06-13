@@ -2,16 +2,20 @@ import ErrorPage from "next/error";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { groq } from "next-sanity";
 import { PortableText } from "@portabletext/react";
 import { usePreviewSubscription, urlFor } from "../lib/sanity";
 import { getClient } from "../lib/sanity.server";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Container = styled.div`
   width: 100%;
-  /* height: 90vh; */
 `;
 
 const Header = styled.header`
@@ -22,6 +26,7 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
   position: relative;
+  z-index: 0;
 
   img {
     width: 100vw;
@@ -52,6 +57,9 @@ const About = styled.section`
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 2.5rem;
+  position: relative;
+  background: white;
+  z-index: 1;
 
   .about {
     width: 60vw;
@@ -118,6 +126,9 @@ const Posts = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 1;
+  background: white;
 
   h2 {
     margin-bottom: 1rem;
@@ -225,6 +236,20 @@ const pagesQuery = groq`
 
 export default function Home({ data, preview, pages }) {
   const router = useRouter();
+  const headerRef = useRef();
+
+  useEffect(() => {
+    ScrollTrigger.create({
+      trigger: ".headerSection",
+      start: "top top",
+      end: "bottom top",
+      pin: true,
+      pinSpacing: false,
+      scrub: 1,
+      invalidateOnRefresh: true,
+      // markers: true,
+    });
+  }, []);
 
   const { data: homepage } = usePreviewSubscription(homePageQuery, {
     params: data.homepage,
@@ -242,16 +267,11 @@ export default function Home({ data, preview, pages }) {
     <Container>
       <Head>
         {title && <title>{title}</title>}
-        {description && (
-          <meta
-            name="description"
-            content="Photography by Jereme Lentz, a South Jersey based photographer"
-          />
-        )}
+        {description && <meta name="description" content={description} />}
         <link rel="icon" href="/jl-logo.png" />
       </Head>
 
-      <Header>
+      <Header className="headerSection" ref={headerRef}>
         {mainImage && (
           <img src={urlFor(mainImage.image).url()} alt={mainImage.alt} />
         )}

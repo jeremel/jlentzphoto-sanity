@@ -38,6 +38,7 @@ const FooterStyles = styled.footer`
   @media (max-width: 500px) {
     justify-content: center;
     flex-direction: column;
+    gap: 0.5rem;
   }
 `;
 
