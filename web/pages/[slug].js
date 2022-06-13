@@ -275,7 +275,7 @@ export default function Page({ data, preview }) {
         <Gallery>
           {gallery &&
             gallery.images.map((image) => (
-              <div className="imgContainer">
+              <div className="imgContainer" key={image._key}>
                 <img
                   key={image._key}
                   src={urlFor(image.asset._ref).url()}
