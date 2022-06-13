@@ -81,7 +81,8 @@ export default function Footer() {
           <a
             href="https://twitter.com/jereme_l"
             target="_blank"
-            rel="noreferrer"
+            aria-label="Twitter"
+            rel="noopener noreferrer"
             className="contactLink"
           >
             <svg
@@ -105,7 +106,8 @@ export default function Footer() {
           <a
             href="https://www.instagram.com/jeremel/"
             target="_blank"
-            rel="noreferrer"
+            aria-label="Instagram"
+            rel="noopener noreferrer"
             className="contactLink"
           >
             <svg
