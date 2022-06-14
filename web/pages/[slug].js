@@ -127,6 +127,7 @@ const Gallery = styled.div`
     }
 
     img {
+      height: 100%;
       max-width: 90vw;
       transition: transform 1s ease;
 
