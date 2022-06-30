@@ -271,7 +271,7 @@ export default function Home({ data, preview, pages }) {
           ease: "power1.easeInOut",
           // toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack
           toggleActions: "play pause play reverse",
-          markers: true,
+          // markers: true,
         },
       })
       .fromTo(
