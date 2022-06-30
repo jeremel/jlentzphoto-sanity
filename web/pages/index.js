@@ -244,7 +244,9 @@ const pagesQuery = groq`
 
 export default function Home({ data, preview, pages }) {
   const router = useRouter();
-  const headerRef = useRef();
+  const headerRef = useRef(null);
+  const q = gsap.utils.selector(headerRef);
+  const tl = useRef(null);
 
   useEffect(() => {
     ScrollTrigger.create({
@@ -257,6 +259,31 @@ export default function Home({ data, preview, pages }) {
       invalidateOnRefresh: true,
       // markers: true,
     });
+
+    tl.current = gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: ".title",
+          start: "75% 10%",
+          endTrigger: ".headerSection",
+          end: "bottom top",
+          scrub: true,
+          ease: "power1.easeInOut",
+          // toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack
+          toggleActions: "play pause play reverse",
+          markers: true,
+        },
+      })
+      .fromTo(
+        q(".title"),
+        {
+          y: 0,
+        },
+        {
+          y: -500,
+          duration: 2,
+        }
+      );
   }, []);
 
   const { data: homepage } = usePreviewSubscription(homePageQuery, {
@@ -289,7 +316,7 @@ export default function Home({ data, preview, pages }) {
             height={mainImgDimensions.height}
           />
         )}
-        {title && <h1>{title}</h1>}
+        {title && <h1 className="title">{title}</h1>}
       </Header>
 
       <About>
