@@ -284,7 +284,7 @@ export default function Home({ data, preview, pages }) {
           duration: 2,
         }
       );
-  }, []);
+  }, [q]);
 
   const { data: homepage } = usePreviewSubscription(homePageQuery, {
     params: data.homepage,
