@@ -223,6 +223,8 @@ const components = {
 export default function Page({ data, preview }) {
   const router = useRouter();
   const headerRef = useRef();
+  const q = gsap.utils.selector(headerRef);
+  const tl = useRef(null);
 
   useEffect(() => {
     ScrollTrigger.create({
@@ -231,11 +233,36 @@ export default function Page({ data, preview }) {
       end: "bottom top",
       pin: true,
       pinSpacing: false,
-      // scrub: 1,
+      scrub: 1,
       invalidateOnRefresh: true,
       // markers: true,
     });
-  }, []);
+
+    tl.current = gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: ".headerTitle",
+          start: "top top",
+          endTrigger: ".headerSection",
+          end: "bottom top",
+          scrub: true,
+          ease: "power1.easeInOut",
+          // toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack
+          toggleActions: "play pause play reverse",
+          // markers: true,
+        },
+      })
+      .fromTo(
+        q(".headerTitle"),
+        {
+          y: 0,
+        },
+        {
+          y: -500,
+          duration: 2,
+        }
+      );
+  }, [q]);
 
   const { data: page } = usePreviewSubscription(pageQuery, {
     params: { slug: data.page?.slug },
