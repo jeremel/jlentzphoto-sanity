@@ -381,5 +381,6 @@ export async function getStaticProps({ preview = false }) {
       data: { homepage },
       pages,
     },
+    revalidate: 10,
   };
 }
