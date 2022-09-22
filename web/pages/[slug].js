@@ -65,6 +65,7 @@ const Content = styled.section`
   width: 100%;
   background: white;
   padding: clamp(1.5rem, 1.027rem + 1.0811vw, 2rem);
+  /* padding-top: 1rem; */
   position: relative;
   z-index: 1;
   background: white;
@@ -74,10 +75,10 @@ const Content = styled.section`
   align-items: center;
 
   h2 {
-    transform: translateY(-80px);
+    /* transform: translateY(-80px); */
     background: white;
     margin: 0;
-    padding: 1.5rem;
+    padding: 0 1.5rem 1.5rem;
     width: 80vw;
     line-height: 1;
     letter-spacing: 0.25rem;
@@ -86,7 +87,7 @@ const Content = styled.section`
   }
 
   p {
-    margin: -4rem 0 1.25rem 0;
+    /* margin: -4rem 0 1.25rem 0; */
     width: 60vw;
     font-size: clamp(1.4rem, 1.3333rem + 0.2963vw, 1.6rem);
     padding: 0;
@@ -163,6 +164,7 @@ const pageQuery = groq`
   *[_type == "page" && slug.current == $slug][0] {
     _id,
     title,
+    titleColor,
     body[] {
       ...,
       markDefs[] {
@@ -241,12 +243,12 @@ export default function Page({ data, preview }) {
     tl.current = gsap
       .timeline({
         scrollTrigger: {
-          trigger: ".headerTitle",
+          // trigger: ".headerTitle",
           start: "top top",
           endTrigger: ".headerSection",
           end: "bottom top",
-          scrub: true,
-          ease: "power1.easeInOut",
+          scrub: 1,
+          ease: "power1.linear",
           // toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack
           toggleActions: "play pause play reverse",
           // markers: true,
@@ -276,6 +278,7 @@ export default function Page({ data, preview }) {
 
   const {
     title,
+    titleColor,
     mainImage,
     body,
     description,
@@ -308,14 +311,19 @@ export default function Page({ data, preview }) {
         )}
         <Link href="/" passHref>
           <a>
-            <h1 className="headerTitle">Jereme Lentz</h1>
-            {/* <h1 className="headerTitle">{title}</h1> */}
+            {/* <h1 className="headerTitle">Jereme Lentz</h1> */}
+            <h1
+              className="headerTitle"
+              style={!titleColor ? { color: "black" } : { color: titleColor }}
+            >
+              {title}
+            </h1>
           </a>
         </Link>
       </Header>
 
       <Content>
-        {title && <h2>{title}</h2>}
+        {/* {title && <h2>{title}</h2>} */}
         {body && <PortableText value={body} components={components} />}
       </Content>
 

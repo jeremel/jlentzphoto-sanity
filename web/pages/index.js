@@ -263,12 +263,13 @@ export default function Home({ data, preview, pages }) {
     tl.current = gsap
       .timeline({
         scrollTrigger: {
-          trigger: ".title",
-          start: "75% 10%",
+          // trigger: ".title",
+          // start: "75% 10%",
+          start: "top top",
           endTrigger: ".headerSection",
           end: "bottom top",
-          scrub: true,
-          ease: "power1.easeInOut",
+          scrub: 1,
+          ease: "power1.linear",
           // toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack
           toggleActions: "play pause play reverse",
           // markers: true,

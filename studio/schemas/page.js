@@ -16,6 +16,11 @@ export default {
         ],
       },
       {
+        name: 'titleColor',
+        title: 'Title Color',
+        type: 'colorPicker',
+      },
+      {
         name: 'slug',
         title: 'Slug',
         type: 'slug',

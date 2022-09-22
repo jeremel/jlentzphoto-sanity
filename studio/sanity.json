@@ -16,7 +16,9 @@
     "iframe-pane",
     "@sanity/dashboard",
     "vercel-deploy",
-    "media"
+    "media",
+    "@sanity/color-input",
+    "color-picker"
   ],
   "env": {
     "development": {
