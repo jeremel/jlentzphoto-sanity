@@ -26,6 +26,8 @@ body {
   height: 100%;
   font-family: "Sawarabi Gothic", sans-serif;
   line-height: 1.5;
+  scroll-behavior: initial;
+  width: 100%;
 }
 
 *,
