@@ -241,11 +241,11 @@ export default function Page({ data, preview }) {
       tl.current = gsap
         .timeline({
           scrollTrigger: {
-            trigger: ".pageWrapper",
+            trigger: ".headerSection",
             start: "top top",
-            // end: "bottom top",
-            end: "+=1000",
-            pin: pageRef.current,
+            end: "bottom top",
+            // end: "+=1000",
+            pin: true,
             pinSpacing: false,
             scrub: true,
             invalidateOnRefresh: true,
@@ -257,7 +257,7 @@ export default function Page({ data, preview }) {
           // y: -800,
           opacity: 0,
           // scrub: true,
-          duration: 1.25,
+          duration: 0.25,
         });
     }, pageRef);
 

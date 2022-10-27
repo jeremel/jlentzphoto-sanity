@@ -267,7 +267,7 @@ export default function Home({ data, preview, pages }) {
           // y: -2000,
           opacity: 0,
           // scrub: true,
-          duration: 1,
+          duration: 0.25,
         });
     }, pageRef);
 
