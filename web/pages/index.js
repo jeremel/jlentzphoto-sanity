@@ -2,7 +2,7 @@ import ErrorPage from "next/error";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { groq } from "next-sanity";
@@ -21,6 +21,7 @@ const Container = styled.div`
 const Header = styled.header`
   margin: 0 auto;
   height: 88vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,7 +33,7 @@ const Header = styled.header`
     width: 100vw;
     height: 100%;
     object-fit: cover;
-    object-position: top;
+    object-position: center;
   }
 
   h1 {
@@ -78,7 +79,6 @@ const About = styled.section`
       margin: 0;
       padding: 0;
       font-weight: 500;
-      /* font-size: 2.5vw; */
       font-size: clamp(1.65rem, 1.5083rem + 0.6296vw, 2.075rem);
     }
 
@@ -91,7 +91,6 @@ const About = styled.section`
     li {
       margin: 0;
       padding-bottom: 0.25rem;
-      /* font-size: 2vw; */
       font-size: clamp(1.45rem, 1.3833rem + 0.2963vw, 1.65rem);
       transition: transform 0.5s ease;
 
@@ -244,48 +243,36 @@ const pagesQuery = groq`
 
 export default function Home({ data, preview, pages }) {
   const router = useRouter();
-  const headerRef = useRef(null);
-  const q = gsap.utils.selector(headerRef);
-  const tl = useRef(null);
+  const pageRef = useRef(null);
+  const tl = useRef();
 
-  useEffect(() => {
-    ScrollTrigger.create({
-      trigger: ".headerSection",
-      start: "top top",
-      end: "bottom top",
-      pin: true,
-      pinSpacing: false,
-      scrub: 1,
-      invalidateOnRefresh: true,
-      // markers: true,
-    });
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      tl.current = gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: ".headerSection",
+            start: "top top",
+            end: "bottom top",
+            // end: "+=400",
+            pin: true,
+            pinSpacing: false,
+            scrub: true,
+            invalidateOnRefresh: true,
+            // markers: true,
+            // id: "Pinned-Header",
+          },
+        })
+        .to(".title", {
+          // y: -2000,
+          opacity: 0,
+          // scrub: true,
+          duration: 1,
+        });
+    }, pageRef);
 
-    tl.current = gsap
-      .timeline({
-        scrollTrigger: {
-          // trigger: ".title",
-          // start: "75% 10%",
-          start: "top top",
-          endTrigger: ".headerSection",
-          end: "bottom top",
-          scrub: 1,
-          ease: "power1.linear",
-          // toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack
-          toggleActions: "play pause play reverse",
-          // markers: true,
-        },
-      })
-      .fromTo(
-        q(".title"),
-        {
-          y: 0,
-        },
-        {
-          y: -500,
-          duration: 2,
-        }
-      );
-  }, [q]);
+    return () => ctx.revert();
+  }, [tl]);
 
   const { data: homepage } = usePreviewSubscription(homePageQuery, {
     params: data.homepage,
@@ -301,20 +288,21 @@ export default function Home({ data, preview, pages }) {
     homepage[0];
 
   return (
-    <Container>
+    <Container id="pageWrapper" ref={pageRef}>
       <Head>
         {title && <title>{title}</title>}
         {description && <meta name="description" content={description} />}
         <link rel="icon" href="/jl-logo.png" />
       </Head>
 
-      <Header className="headerSection" ref={headerRef}>
+      <Header className="headerSection">
         {mainImage && (
           <img
             src={urlFor(mainImage.image).url()}
             alt={mainImage.alt}
             width={mainImgDimensions.width}
             height={mainImgDimensions.height}
+            className="headerImage"
           />
         )}
         {title && <h1 className="title">{title}</h1>}

@@ -10,7 +10,7 @@ import { getClient } from "../lib/sanity.server";
 import styled from "styled-components";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -233,47 +233,36 @@ const components = {
 
 export default function Page({ data, preview }) {
   const router = useRouter();
-  const headerRef = useRef();
-  const q = gsap.utils.selector(headerRef);
-  const tl = useRef(null);
+  const pageRef = useRef(null);
+  const tl = useRef();
 
-  useEffect(() => {
-    ScrollTrigger.create({
-      trigger: ".headerSection",
-      start: "top top",
-      end: "bottom top",
-      pin: true,
-      pinSpacing: false,
-      scrub: 1,
-      invalidateOnRefresh: true,
-      // markers: true,
-    });
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      tl.current = gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: ".pageWrapper",
+            start: "top top",
+            // end: "bottom top",
+            end: "+=1000",
+            pin: pageRef.current,
+            pinSpacing: false,
+            scrub: true,
+            invalidateOnRefresh: true,
+            // markers: true,
+            // id: "Pinned-Header",
+          },
+        })
+        .to(".headerTitle", {
+          // y: -800,
+          opacity: 0,
+          // scrub: true,
+          duration: 1.25,
+        });
+    }, pageRef);
 
-    tl.current = gsap
-      .timeline({
-        scrollTrigger: {
-          // trigger: ".headerTitle",
-          start: "top top",
-          endTrigger: ".headerSection",
-          end: "bottom top",
-          scrub: 1,
-          ease: "power1.linear",
-          // toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack
-          toggleActions: "play pause play reverse",
-          // markers: true,
-        },
-      })
-      .fromTo(
-        q(".headerTitle"),
-        {
-          y: 0,
-        },
-        {
-          y: -500,
-          duration: 2,
-        }
-      );
-  }, [q]);
+    return () => ctx.revert();
+  }, [tl]);
 
   const { data: page } = usePreviewSubscription(pageQuery, {
     params: { slug: data.page?.slug },
@@ -300,14 +289,14 @@ export default function Page({ data, preview }) {
   // console.log(body);
 
   return (
-    <Container>
+    <Container className="pageWrapper" ref={pageRef}>
       <Head>
         {title && <title>{`${title} | Jereme Lentz Photography`}</title>}
         {description && <meta name="description" content={description} />}
         <link rel="icon" href="/jl-logo.png" />
       </Head>
 
-      <Header className="headerSection" ref={headerRef}>
+      <Header className="headerSection">
         {mainImage && (
           <figure>
             <img
