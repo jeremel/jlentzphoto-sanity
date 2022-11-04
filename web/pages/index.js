@@ -20,20 +20,23 @@ const Container = styled.div`
 
 const Header = styled.header`
   margin: 0 auto;
-  height: 88vh;
-  /* height: 100vh; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 0 clamp(1.5rem, 1.027rem + 1.0811vw, 2rem);
+  /* height: 88vh; */
   position: relative;
   z-index: 0;
 
-  img {
-    width: 100vw;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+  figure {
+    margin: 0;
+    height: 100vh;
+    width: 100%;
+
+    img {
+      width: 100vw;
+      height: 100%;
+      margin: 0;
+      object-fit: cover;
+      object-position: center;
+    }
   }
 
   h1 {
@@ -154,7 +157,7 @@ const Posts = styled.section`
     border: 2px solid transparent;
 
     &:hover {
-      border 2px solid black;
+      border: 2px solid black;
     }
 
     img {
@@ -253,22 +256,24 @@ export default function Home({ data, preview, pages }) {
           scrollTrigger: {
             trigger: ".headerSection",
             start: "top top",
-            end: "bottom top",
-            // end: "+=400",
+            // end: "bottom top",
+            end: "+=125%",
             pin: true,
-            pinSpacing: false,
-            scrub: true,
+            // pinSpacing: false,
+            scrub: 0.25,
             invalidateOnRefresh: true,
             // markers: true,
             // id: "Pinned-Header",
           },
         })
-        .to(".title", {
-          // y: -2000,
-          opacity: 0,
-          // scrub: true,
-          duration: 0.25,
-        });
+        .to(
+          ".title",
+          {
+            opacity: 0,
+            autoAlpha: 0,
+          },
+          0
+        );
     }, pageRef);
 
     return () => ctx.revert();
@@ -297,13 +302,15 @@ export default function Home({ data, preview, pages }) {
 
       <Header className="headerSection">
         {mainImage && (
-          <img
-            src={urlFor(mainImage.image).url()}
-            alt={mainImage.alt}
-            width={mainImgDimensions.width}
-            height={mainImgDimensions.height}
-            className="headerImage"
-          />
+          <figure className="headerImage">
+            <img
+              src={urlFor(mainImage.image).url()}
+              alt={mainImage.alt}
+              width={mainImgDimensions.width}
+              height={mainImgDimensions.height}
+              className="headerImage"
+            />
+          </figure>
         )}
         {title && <h1 className="title">{title}</h1>}
       </Header>

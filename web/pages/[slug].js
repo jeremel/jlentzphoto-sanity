@@ -16,24 +16,27 @@ import { useEffect } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 const Container = styled.div`
-  margin: 0 auto;
+  /* margin: 0 auto;
   padding: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
+  position: relative; */
+  width: 100%;
 `;
 
 const Header = styled.header`
   position: relative;
   z-index: 0;
-  margin: 0;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 1.027rem + 1.0811vw, 2rem);
 
   figure {
     margin: 0;
-    height: 90vh;
+    /* height: 90vh; */
+    height: 100vh;
     width: 100%;
 
     img {
@@ -51,7 +54,7 @@ const Header = styled.header`
     top: 33.33%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: clamp(3rem, 2.3333rem + 2.963vw, 5rem);
+    font-size: clamp(2.5rem, 1.6972rem + 3.6697vw, 5rem);
     letter-spacing: 0.5rem;
     font-family: century-gothic, sans-serif;
     font-weight: 700;
@@ -108,7 +111,7 @@ const Gallery = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 0 2rem;
+  margin: 0 auto;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -243,22 +246,24 @@ export default function Page({ data, preview }) {
           scrollTrigger: {
             trigger: ".headerSection",
             start: "top top",
-            end: "bottom top",
-            // end: "+=1000",
+            // end: "bottom top",
+            end: "+=125%",
             pin: true,
-            pinSpacing: false,
-            scrub: true,
+            // pinSpacing: false,
+            scrub: 0.25,
             invalidateOnRefresh: true,
             // markers: true,
             // id: "Pinned-Header",
           },
         })
-        .to(".headerTitle", {
-          // y: -800,
-          opacity: 0,
-          // scrub: true,
-          duration: 0.25,
-        });
+        .to(
+          ".headerTitle",
+          {
+            opacity: 0,
+            autoAlpha: 0,
+          },
+          0
+        );
     }, pageRef);
 
     return () => ctx.revert();
@@ -298,7 +303,7 @@ export default function Page({ data, preview }) {
 
       <Header className="headerSection">
         {mainImage && (
-          <figure>
+          <figure className="headerImage">
             <img
               src={urlFor(mainImage.image).url()}
               alt={mainImage.alt}
