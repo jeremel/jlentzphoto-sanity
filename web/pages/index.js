@@ -27,7 +27,7 @@ const Header = styled.header`
 
   figure {
     margin: 0;
-    height: 100vh;
+    height: 100%;
     width: 100%;
 
     img {

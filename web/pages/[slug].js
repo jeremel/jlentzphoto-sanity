@@ -36,11 +36,11 @@ const Header = styled.header`
   figure {
     margin: 0;
     /* height: 90vh; */
-    height: 100vh;
+    height: 100%;
     width: 100%;
 
     img {
-      width: 100vw;
+      width: 100%;
       height: 100%;
       margin: 0;
       object-fit: cover;
