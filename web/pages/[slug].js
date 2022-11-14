@@ -36,7 +36,7 @@ const Header = styled.header`
   figure {
     margin: 0;
     /* height: 90vh; */
-    height: 100%;
+    height: 100vh;
     width: 100%;
 
     img {

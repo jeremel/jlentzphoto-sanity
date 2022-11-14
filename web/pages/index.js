@@ -1,8 +1,7 @@
 import ErrorPage from "next/error";
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { groq } from "next-sanity";
@@ -27,11 +26,11 @@ const Header = styled.header`
 
   figure {
     margin: 0;
-    height: 100%;
+    height: 100vh;
     width: 100%;
 
     img {
-      width: 100vw;
+      width: 100%;
       height: 100%;
       margin: 0;
       object-fit: cover;
